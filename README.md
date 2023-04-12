@@ -1,6 +1,6 @@
-# 🚀 Welcome to your new awesome project!
+# 🚀 HackerNews Fetcher!
 
-This project has been created using **webpack-cli**, you can now run
+This project is a simple website that shows the news from HackerNews website using their APIs.
 
 ```
 npm run build

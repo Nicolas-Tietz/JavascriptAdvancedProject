@@ -34,11 +34,7 @@ a{
     
 }
 
-.btn-div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 h2{
     font-size: 18px;
@@ -52,13 +48,9 @@ h1{
     }
 }
 
-.btn-loadmore{
-    border:1px solid black;
-    background-color: orange;
-    width: 7%;
-    height: 35px;
-    border-radius: 10px;    
-    display:none;
-    
+nav{
+    li{
+        display: inline-block;
+    }
 }
 

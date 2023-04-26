@@ -1,7 +1,7 @@
-import '../src/scss/styles.scss';
-import loadingNews from './components/loadingNews/loading.js';
-import loadingButton from './components/loadingButton/loading.js';
-import loadMoreButton from './components/loadMoreButton/button.js';
+import '../scss/styles.scss';
+import loadingNews from '../components/loadingNews/loading.js';
+import loadingButton from '../components/loadingButton/loading.js';
+import loadMoreButton from '../components/loadMoreButton/button.js';
 document.body.prepend(loadingNews());
 const _ = require("lodash");
 const axios = require('axios');
@@ -9,7 +9,7 @@ const { doc } = require("prettier");
 
 
 
-
+/* Decidere se avere varie pagine html oppure cambiare quella attuale nel momento in cui si cliccano i tasti last o best. */
 
 
 
@@ -23,20 +23,27 @@ const { doc } = require("prettier");
 let newsArray = [];
 let newsLoaded = 0;
 let newsHtmlElemsArray =[];
-let cont = 0;
+
 
 let checkArray = []
 let latestFetchArray =[]
 
-let allNews = []
 
 let minutesPassed = 0;
 
-let loadingNext = false;
-let loadingState = false;
+let loadMoreReady = false;
+
+let loadingState = false; //True quando sta fetchando quindi caricando le 10 news, per poi mostrare il pulsante loadMore
 
 let timeCount = 0;
 
+let notSortedNews = []
+
+let nextFetchedDatas = []
+
+//FIXARE
+//preparando prima le prossime news da mostrare, l'orario è sbagliato
+//soluzione potrebbe essere creare le news solamente dopo che è stato clickato il pulsante, invece che prima, tanto è il fetch la parte che prende più tempo
 
 
 const loadMoreBtn = loadMoreButton();
@@ -55,7 +62,7 @@ const loadingBtn = loadingButton();
 
 
 
-const lastNewsApi = process.env.LAST_NEWS_API;
+const bestNewsApi = process.env.BEST_NEWS_API;
 const newsInfoApi = process.env.NEWS_INFO_API;
 
 
@@ -72,7 +79,7 @@ function insertButton(){
 
 function createTitle(){
     let titleH1 = document.createElement('h1');
-    titleH1.innerHTML = 'Latest <span>Hacker</span>News';
+    titleH1.innerHTML = 'Best <span>Hacker</span>News';
     let titleContainer = document.createElement('div');
     titleContainer.className = 'title-container';
     titleContainer.appendChild(titleH1);
@@ -88,10 +95,10 @@ async function fetchNewsIds(){
     
     
     try{
-        let response = await axios.get(lastNewsApi)
+        let response = await axios.get(bestNewsApi)
         newsArray = response.data;
         checkArray = newsArray;
-        allNews = newsArray;
+        
     } catch (err){
         console.log('Errore: ',err);
     }
@@ -99,49 +106,11 @@ async function fetchNewsIds(){
 
 //Ogni minuto di ciclo, time +1, poi time +2, 
 //Controlla se ci sono delle nuove news rispetto al fetch precedente
-async function newsCheck(){
-    try{
-        minutesPassed++;
-        updateTime();
-        let now = new Date();
-        console.log('Minute fetch started at',now);
-        let response = await axios.get(lastNewsApi)
-        latestFetchArray = response.data;
-        
-        for (let news of latestFetchArray){
-        
-            if (!(checkArray.includes(news))){
-                console.log('newscheckato');
-                addNews(news);
-                
-            }else{
-                break;
-            }
 
-        }
-        checkArray = latestFetchArray;
-    } catch (err){
-        console.log('Errore: ',err);
-    }
-    
-    
-}
 
-async function addNews(news){
-    let newsLink = newsInfoApi + news + '.json';
-    let response = await axios.get(newsLink);
-    console.log('inizio addnews entrato');
-    if (response.data == null){
-        console.log('News Vuota Trovata',response);
-        
-        
-    }else{
-        let div = createNews(response,'start');
-        let newsContainer = document.getElementById('container-news');
-        newsContainer.prepend(div);
-    }
-    
-}
+
+
+//Riceve un id come parametro, e esegue la call all'API. Poi in caso di successo, chiama createNews
 
 
 //Scorre 10 elementi del news array e per ogni elemento chiama 
@@ -157,6 +126,7 @@ async function fetchTenNewsInfo(){
         try{    
             let newsLink = newsInfoApi + newsArray[newsLoaded] + '.json';
             let response = await axios.get(newsLink);
+            //creare array in cui mettere le reposnse e dopo quando si clicca il coso createnews e shownews.
             if (response.data == null){
                 console.log('News Vuota Trovata Carico Un Altra News',response);
                 i--;
@@ -175,45 +145,16 @@ async function fetchTenNewsInfo(){
     }
 }
 
-function updateTime(){
 
-    let timeSpan = document.querySelectorAll('.news-time');
-    let formattedNumber;
-    let agoSpan;
-    let nowTime = new Date();
-    
-    for (let span of timeSpan){
-        
-        let publishTime = new Date(span.getAttribute('data-time'));
-        console.log(typeof(publishTime));
-        let newsTime = Math.floor((Math.abs(nowTime - publishTime)/36e5)*60); //Valore in minuti
-        let timeAgo = timeString(newsTime);
-        let timeNum = timeNumber(newsTime);
-        
-        
-        
-        span.innerHTML ='';
-        span.innerHTML = timeNum;
-        
-        
-        agoSpan = span.nextElementSibling;
-        agoSpan.innerHTML = ' '+timeAgo;
-
-        
-        
-    }
-    
-    
-
-}
 
 function timeNumber(time){
-    if (time<60){
+    console.log(time);
+    if (time>=0 && time<60){
         return time;
-    }else if (time <60*24){
-        time = Math.floor(time/60)
-    }else if (time < 60*24*365){
-        time = Math.floor(time/60*24);
+    }else if (time>=60 && time <60*24){
+        time = Math.floor(time/60);
+    }else if (time>=60*24 && time < 60*24*365){
+        time = Math.floor(time/1440);
     }
     return time;
 }
@@ -254,36 +195,37 @@ function timeString(time){
 }
 
 
-
+//Prende come parametri l'oggetto news e la posizione in cui va inserita. in pratica crea l'elemento HTML news.
 function createNews(newsObject,position){
-    console.log(newsObject);
-    console.log('news numero',newsLoaded,'caricata');
+    
+    
     
     let newsTitle = newsObject.data.title;
     let nowTime = new Date();
     
     let dateTime = new Date(newsObject.data.time*1000);
+    
     let newsTime = Math.floor((Math.abs(nowTime - dateTime)/36e5)*60); //Valore in minuti
     let timeAgo = timeString(newsTime);
     let timeNum = timeNumber(newsTime);
     
-    if (position == 'end'){
-        newsTime+=minutesPassed;
-    }
+    
 
     
     
     let newsAuthor = newsObject.data.by;
     let newsUrl= newsObject.data.url;
+    let newsScore = newsObject.data.score;
     let newsDiv = document.createElement('div');
 
     newsDiv.value = 0;
 
     newsDiv.className = 'news';
-    newsDiv.innerHTML = `<h2><b><a href="${newsUrl}">${newsTitle}</a></b></h2><p>By <i>${newsAuthor}</i> <span class='news-time' data-time='${dateTime}'>${timeNum}</span><span class='time-ago'> ${timeAgo}</span></p><p> </p><p></p>`;
+    newsDiv.innerHTML = `<h2><b><a href="${newsUrl}">${newsTitle}</a></b></h2><p>By <i>${newsAuthor}</i> <span class='news-time' data-time='${dateTime}'>${timeNum}</span><span class='time-ago'> ${timeAgo}</span></p><p> </p><p><b>${newsScore} points</b></p>`;
     if (position == 'end'){
         newsHtmlElemsArray.push(newsDiv);
     }else if (position =='start'){
+        console.log('Ora pubblicazione',dateTime);
         timeAgo = '0';
         return newsDiv;
     }
@@ -293,8 +235,8 @@ function createNews(newsObject,position){
         if (newsLoaded == 10){
             insertButton();
         }
-        if (loadingNext == false){
-            loadingNext = true;
+        if (loadMoreReady == false){
+            loadMoreReady = true;
             showNews();
             
         }
@@ -306,12 +248,15 @@ function createNews(newsObject,position){
     
 }
 
-
+//Aggiorna il timer delle news fetchate ma non ancora mostrate, visto che attualmente le news che vengono aggiornate minuto per minuto sono
+//Solo quelle visibili, si potrebbe fixare anche avendo un array delle news mostrate + quelle fetchate, e ogni minuto vengono aggiornate tutte
 
 
 //Prende gli elementi da newsHtmlElemsArray, li inserisce nel DOM e una volta inseriti svuota l'array.
 function showNews(){
+    
     for (let news of newsHtmlElemsArray){
+        
         let newsContainer = document.getElementById('container-news');
         newsContainer.appendChild(news);
 
@@ -361,7 +306,7 @@ window.onload = function(){
     //Creo l'array con le 10 news e le mostro direttamente solo alla prima esecuzione
     fetchTenNewsInfo();
 
-    setTimeout(setInterval(newsCheck,60*1000),60*1000);
+    
     
     
 

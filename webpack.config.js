@@ -15,7 +15,10 @@ const stylesHandler = isProduction
 
 const config = {
   
-  entry: "./src/index.js",
+  entry: {
+    app: './src/js/main.js',
+    bestNews: './src/js/bestNews.js',
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
   },
@@ -25,8 +28,16 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
+      filename:'index.html',
+      template: "./src/views/index.html",
+      chunks: ['app']
     }),
+    new HtmlWebpackPlugin({
+      filename:'bestNews.html',
+      template: "./src/views/bestNews.html",
+      chunks: ['bestNews']
+    }),
+    
     new Dotenv(),
 
     // Add your plugins here

@@ -16,7 +16,7 @@ const stylesHandler = isProduction
 const config = {
   
   entry: {
-    app: './src/js/main.js',
+    app: './src/js/latestNews.js',
     bestNews: './src/js/bestNews.js',
   },
   output: {
@@ -29,7 +29,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       filename:'index.html',
-      template: "./src/views/index.html",
+      template: "./src/views/latestNews.html",
       chunks: ['app']
     }),
     new HtmlWebpackPlugin({

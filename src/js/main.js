@@ -1,5 +1,5 @@
 import loadingNews from '../components/loadingNews/loading.js';
-import loadingButton from '../components/loadingButton/loading.js';
+import loadingButton from '../components/loadMoreBtnCube/loading.js';
 import loadMoreButton from '../components/loadMoreButton/button.js';
 import mainTitle from '../components/title/title.js';
 const latestNewsApi = process.env.LATEST_NEWS_API;
@@ -10,7 +10,9 @@ const _ = require("lodash");
 const axios = require('axios');
 const { doc } = require("prettier");
 
-document.body.prepend(loadingNews());
+const firstLoadingCube = loadingNews();
+
+document.body.prepend(firstLoadingCube);
 
 let newsArray = [];
 
@@ -20,7 +22,7 @@ let checkArray = []
 
 
 
-let loadMoreReady = false;
+
 
 let latestFetchArray = [];
 let newsLoaded = 0;
@@ -32,7 +34,7 @@ const loadMoreBtn = loadMoreButton();
 loadMoreBtn.addEventListener('click',()=>{
     
     updateTime('loaded');
-    showNews();
+    showNews('tenNewsFetch');
         
     
     
@@ -48,7 +50,7 @@ function updateTime(check){
         
         let agoSpan;
         let nowTime = new Date();
-        
+        //Updates time of all shown HTML elements
         for (let span of timeSpan){
             
             let publishTime = new Date(span.getAttribute('data-time'));
@@ -74,7 +76,7 @@ function updateTime(check){
         
         let agoSpan;
         let nowTime = new Date();
-        
+        //Updates time of the only loaded news
         for (let news of newsHtmlElemsArray){
             let span = news.getElementsByTagName('span')[0];
             let publishTime = new Date(span.getAttribute('data-time'));
@@ -179,7 +181,7 @@ const btnDiv = document.querySelector('.btn-div');
 
 
 
-const loadingWheel = loadingButton();
+const loadingWheelBtn = loadingButton();
 
 
 export function insertTitle(){
@@ -218,7 +220,7 @@ function insertButton(){
 //Scorre 10 elementi del news array e per ogni elemento chiama 
 export async function fetchTenNewsInfo(){
     
-    loadMoreBtn.replaceWith(loadingWheel);
+    loadMoreBtn.replaceWith(loadingWheelBtn);
     let btnLoad = document.querySelector('.btn-loadmore');
     if (btnLoad != null){
     }
@@ -257,7 +259,7 @@ export async function fetchTenNewsInfo(){
 //Prende come parametri l'oggetto news e la posizione in cui va inserita. in pratica crea l'elemento HTML news.
 function createNews(newsObject,position){
     
-    let newsScore = '';
+    let newsScore;
     let newsDatas = _.get(newsObject,'data');
     let newsTitle = _.get(newsDatas,'title');
     let nowTime = new Date();
@@ -302,12 +304,14 @@ function createNews(newsObject,position){
             insertButton();
         }
         if (newsLoaded == 10){
-            showNews();
+            firstLoadingCube.style.display = 'none';
+            
+            showNews('tenNewsFetch');
         }
         if (newsLoaded == 20){
             insertButton();
         }
-        loadingWheel.replaceWith(loadMoreBtn);
+        loadingWheelBtn.replaceWith(loadMoreBtn);
             
     }
             
@@ -321,39 +325,44 @@ function createNews(newsObject,position){
     
 
 
-//Aggiorna il timer delle news fetchate ma non ancora mostrate, visto che attualmente le news che vengono aggiornate minuto per minuto sono
-//Solo quelle visibili, si potrebbe fixare anche avendo un array delle news mostrate + quelle fetchate, e ogni minuto vengono aggiornate tutte
+//Inserts the news into the HTML
 
+function showNews(origin){
+    if (origin == 'tenNewsFetch'){
+        for (let news of newsHtmlElemsArray){
 
-//Prende gli elementi da newsHtmlElemsArray, li inserisce nel DOM e una volta inseriti svuota l'array.
-function showNews(){
-    updateTime('showed');
-    for (let news of newsHtmlElemsArray){
+            let newsContainer = document.getElementById('container-news');
+            newsContainer.appendChild(news);
 
-        let newsContainer = document.getElementById('container-news');
-        newsContainer.appendChild(news);
-
-    }
-
-
-    newsHtmlElemsArray = [];
-    let loadingGif = document.querySelector('.loading');
-    loadingGif.style.display = 'none';
-    if (newsType == 'best'){
-        if (newsLoaded == 200){
-            btnDiv.style.display = 'none';
-            return;
         }
-        fetchTenNewsInfo('best');
 
-    }else if (newsType == 'latest'){
-        if (newsLoaded == 500){
-            btnDiv.style.display = 'none';
-            return;
+
+        newsHtmlElemsArray = [];
+        
+        
+        if (newsType == 'best'){
+            if (newsLoaded == 200){
+                btnDiv.style.display = 'none';
+                return;
+            }
+            fetchTenNewsInfo('best');
+
+        }else if (newsType == 'latest'){
+            if (newsLoaded == 500){
+                btnDiv.style.display = 'none';
+                return;
+            }
+            fetchTenNewsInfo('latest');
         }
-        fetchTenNewsInfo('latest');
     }
+    else if (origin == 'minuteFetch'){
+        for (let news of sortedNews){
+            newsContainer.insertAdjacentElement("afterbegin",news);
     
+        }
+        
+        notSortedNews = []
+    }
     
    
 
@@ -363,12 +372,20 @@ function showNews(){
 
 }
 
-//Latest Only Functions
+
+
+
+
+// ---------------------Latest News Only Functions----------------------------
+
+
+
+//Checks for news added compared to the latest fetch and adds them to sortedNews array
 export async function newsCheck(){
     try{
         
         updateTime('showed');
-        let now = new Date();
+        
         
         let response = await axios.get(latestNewsApi)
         latestFetchArray = response.data;
@@ -387,13 +404,8 @@ export async function newsCheck(){
         let newsContainer = document.getElementById('container-news');
         
         let sortedNews = notSortedNews.reverse();
-        for (let news of sortedNews){
-            newsContainer.insertAdjacentElement("afterbegin",news);
-
-        }
         
-        notSortedNews = []
-        
+        showNews('minuteFetch');
         checkArray = latestFetchArray;
     } catch (err){
         console.log('Errore: ',err);
@@ -408,7 +420,8 @@ async function addNews(news){
     
     
     if (response.data == null){
-        console.log('News Vuota Trovata',response);
+        
+        return;
         
         
     }else{

@@ -31,13 +31,17 @@ const config = {
     new HtmlWebpackPlugin({
       filename:'index.html',
       template: "./src/views/index.html",
+      favicon:"./src/img/favicon.svg",
+      
       chunks: ['app']
     }),
     new HtmlWebpackPlugin({
       filename:'bestNews.html',
       template: "./src/views/bestNews.html",
+      favicon:"./src/img/favicon.svg",
       chunks: ['bestNews']
     }),
+    
     
     new Dotenv(),
 

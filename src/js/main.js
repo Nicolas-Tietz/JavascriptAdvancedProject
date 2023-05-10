@@ -24,6 +24,8 @@ let newsHtmlElemsArray =[];
 let notSortedNews = [];
 let newsType;
 
+const newsContainer = document.getElementById('container-news');
+
 const btnDiv = document.querySelector('.btn-div');
 
 const loadingWheelBtn = loadingButton();
@@ -186,11 +188,6 @@ export function insertTitle(){
 
 
 
-function insertButton(){
-    
-    btnDiv.appendChild(loadMoreBtn);
-    
-}
 
 
 
@@ -198,19 +195,13 @@ function insertButton(){
 
 
 
-//Fetcha gli ID's delle news e li inserisce nel newsArray.
-
-
-//Ogni minuto di ciclo, time +1, poi time +2, 
-//Controlla se ci sono delle nuove news rispetto al fetch precedente
 
 
 
 
-//Riceve un id come parametro, e esegue la call all'API. Poi in caso di successo, chiama createNews
 
+//Fetches the info of 10 news and calls createNews for every one of them
 
-//Scorre 10 elementi del news array e per ogni elemento chiama 
 export async function fetchTenNewsInfo(){
     
     loadMoreBtn.replaceWith(loadingWheelBtn);
@@ -248,8 +239,10 @@ export async function fetchTenNewsInfo(){
 
 
 
+//Takes the newsObject and the position as parameters.
+//If position == start -> the news will be added at the beginning of the newsContainer (used for minute fetched news)
+//If position == end -> the news will be added at the end (used for the 10 loaded news)
 
-//Prende come parametri l'oggetto news e la posizione in cui va inserita. in pratica crea l'elemento HTML news.
 function createNews(newsObject,position){
     
     let newsScore;
@@ -290,20 +283,19 @@ function createNews(newsObject,position){
         timeAgo = '0';
         return newsDiv;
     }
-    /*newsContainer.appendChild(newsDiv);*/
+    
     if (newsLoaded%10==0){
-        //Caricate le prime 10 notizie, inserisci il button
+        //Add button when the first 20 news are loaded
         if (newsLoaded == 20){
-            insertButton();
+            btnDiv.appendChild(loadMoreBtn);
         }
+        //Remove button after the first 10 news are loaded
         if (newsLoaded == 10){
             firstLoadingCube.style.display = 'none';
             
             showNews('tenNewsFetch');
         }
-        if (newsLoaded == 20){
-            insertButton();
-        }
+        
         loadingWheelBtn.replaceWith(loadMoreBtn);
             
     }
@@ -324,7 +316,7 @@ function showNews(origin){
     if (origin == 'tenNewsFetch'){
         for (let news of newsHtmlElemsArray){
 
-            let newsContainer = document.getElementById('container-news');
+            
             newsContainer.appendChild(news);
 
         }
@@ -349,7 +341,9 @@ function showNews(origin){
         }
     }
     else if (origin == 'minuteFetch'){
-        for (let news of sortedNews){
+        console.log('notsorted',notSortedNews);
+        
+        for (let news of notSortedNews.reverse()){
             newsContainer.insertAdjacentElement("afterbegin",news);
     
         }
@@ -373,7 +367,7 @@ function showNews(origin){
 
 
 
-//Checks for news added compared to the latest fetch and adds them to sortedNews array
+//Checks for news added compared to the latest and calls fetchNewsInfo for all of them
 export async function newsCheck(){
     try{
         
@@ -387,16 +381,16 @@ export async function newsCheck(){
         
             if (!(checkArray.includes(news))){
                 
-                addNews(news);
+                fetchNewsInfo(news);
                 
             }else{
                 break;
             }
 
         }
-        let newsContainer = document.getElementById('container-news');
         
-        let sortedNews = notSortedNews.reverse();
+        
+        
         
         showNews('minuteFetch');
         checkArray = latestFetchArray;
@@ -407,7 +401,11 @@ export async function newsCheck(){
     
 }
 
-async function addNews(news){
+
+
+//Fetches the news info and pushes it into an array
+
+async function fetchNewsInfo(news){
     let newsLink = newsInfoApi + news + '.json';
     let response = await axios.get(newsLink);
     
@@ -418,7 +416,7 @@ async function addNews(news){
         
         
     }else{
-        let div = createNews(response,'start','latest');
+        let div = createNews(response,'start');
         
         notSortedNews.push(div);
         

@@ -1,5 +1,5 @@
-import loadingNews from '../components/loadingNews/loading.js';
-import loadingButton from '../components/loadMoreBtnCube/loading.js';
+import loadingNews from '../components/loadingNewsCube/loading.js';
+import loadingButton from '../components/loadingButtonCube/loading.js';
 import loadMoreButton from '../components/loadMoreButton/button.js';
 import mainTitle from '../components/title/title.js';
 const latestNewsApi = process.env.LATEST_NEWS_API;
@@ -15,13 +15,7 @@ const firstLoadingCube = loadingNews();
 document.body.prepend(firstLoadingCube);
 
 let newsArray = [];
-
 let checkArray = []
-
-
-
-
-
 
 
 let latestFetchArray = [];
@@ -29,6 +23,10 @@ let newsLoaded = 0;
 let newsHtmlElemsArray =[];
 let notSortedNews = [];
 let newsType;
+
+const btnDiv = document.querySelector('.btn-div');
+
+const loadingWheelBtn = loadingButton();
 
 const loadMoreBtn = loadMoreButton();
 loadMoreBtn.addEventListener('click',()=>{
@@ -41,7 +39,7 @@ loadMoreBtn.addEventListener('click',()=>{
     
 });
 
-//Functions for time
+//Updates the time ago of 'showed news' or 'loaded but not showed' news
 
 function updateTime(check){
     console.log(newsHtmlElemsArray);
@@ -104,6 +102,7 @@ function updateTime(check){
 
 }
 
+//Gets the value of 'timeago' in minutes and return the formatted the number
 function formatTimeNumber(time){
     if (time<60){
         return time;
@@ -115,7 +114,7 @@ function formatTimeNumber(time){
     return time;
 }
 
-
+//Gets the value of 'timeago' in minutes and return the formatted string
 function formatTimeString(time){
     let timeAgo='';
     if (time < 60){
@@ -149,7 +148,7 @@ function formatTimeString(time){
     return timeAgo;
 }
 
-
+//Fetches the news id's and saves them into an array
 export async function fetchNewsIds(type){
     
     
@@ -175,13 +174,7 @@ export async function fetchNewsIds(type){
 
 
 
-const btnDiv = document.querySelector('.btn-div');
 
-
-
-
-
-const loadingWheelBtn = loadingButton();
 
 
 export function insertTitle(){

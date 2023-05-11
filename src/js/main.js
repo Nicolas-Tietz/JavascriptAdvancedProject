@@ -265,6 +265,7 @@ function createNews(newsObject,position){
     
    
     let newsDiv = document.createElement('div');
+    
 
     if (newsType == 'best'){
         newsScore = _.get(newsDatas,'score');
@@ -275,7 +276,7 @@ function createNews(newsObject,position){
 
     }
 
-    newsDiv.className = 'news';
+    newsDiv.classList.add('news','fade-in');
     if (position == 'end'){
         newsHtmlElemsArray.push(newsDiv);
     }else if (position =='start'){

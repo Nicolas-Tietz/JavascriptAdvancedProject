@@ -1,11 +1,14 @@
-# 🚀 HackerNews Fetcher
+# ![test]()HackerNews Fetcher
 
 ![HTML](https://img.shields.io/badge/HTML-orange?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JS](https://img.shields.io/badge/JAVASCRIPT-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![WEBPACK](https://img.shields.io/badge/WEBPACK-8DD6F9?style=for-the-badge&logo=webpack&logoColor=black)
 ![NODEJS](https://img.shields.io/badge/NODE_JS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-## A working project showing the Best and Latest News fetched using HackerNews APIs
+
+
+
+## Best and Latest News fetched using HackerNews APIs
 
 This project has been made to better understand APIs and how they work. For this particular case, we used the Best and Latest HackerNews APIs.
 The website has only 2 pages: one for the Best News and other for the Lastest ones.
@@ -37,15 +40,7 @@ The same thing goes for the Latest News page, except for 2 additional features.
 ![NewsAdded](https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/c461b7e6-d1d9-40e8-af4f-8fe15d827ed6)
 
 
-
-
-### Languages Used
-
-HTML
-SASS
-JS
-
-### Libraries Used
+### <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/e639caa0-e35e-49ea-b5ae-ca2d189c87f7" width="25"> Libraries Used
 
 Axios
 Lodash

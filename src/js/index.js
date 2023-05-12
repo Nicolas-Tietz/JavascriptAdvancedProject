@@ -6,7 +6,7 @@ import { fetchTenNewsInfo,insertTitle,fetchNewsIds,newsCheck } from './main.js';
  
 window.onload = function(){
 
-    insertTitle();
+    insertTitle('latest');
 
     fetchNewsIds('latest');
 

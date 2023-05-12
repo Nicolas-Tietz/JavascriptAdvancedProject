@@ -179,8 +179,15 @@ export async function fetchNewsIds(type){
 
 
 
-export function insertTitle(){
-    const title = mainTitle('Best');
+export function insertTitle(newsType){
+    let title = '';
+    if (newsType == 'best'){
+        title = mainTitle('Best');
+        
+    }else if (newsType == 'latest'){
+        title = mainTitle('Latest');
+    }
+
     document.body.prepend(title);
 }
 

@@ -1,20 +1,32 @@
 # 🚀 HackerNews Fetcher
 
-## A simple project that fetches the best and latest news from HackerNews and shows them in the appropriate page.
+## A working project showing the Best and Latest News fetched using HackerNews APIs
 
 This project has been made to better understand APIs and how they work. For this particular case, we used the Best and Latest HackerNews APIs.
-
-## How It Works | Best News
-
-First, there is a fetch of the Best News IDs. For each one of them, another API call is made to get the News Info and create the News Element.
-When first opened, the page will start to load the News, and once done, the first 10 News will appear. After that, the next 10 News will also start to get fetched to avoid the waiting time when the Load More button is clicked. The button will instantly show the next 10 News that have already been prepared.
+The website has only 2 pages: one for the Best News and other for the Lastest ones.
 
 
-## How It Works | Latest News
+The project has 2 pages:
+- One for the Best News, ordered by their score.
+- One for the Latest News ordered by their publish time.
 
-The Latest News page works the same as the Best one, but with some additional functionalities. For example, every minute, the 'time ago' (element?string?) gets updated. At the same time, there will be another fetch, to check if some News were added during that minute. If the response is positive, the news will be added on top. 
+### Best News
+
+The Best News page, shows the first 10 news with the higher score. By clicking the Load More button, 10 more news will appear. The limit is 200 news.
+
+![BestNews](https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/a21847eb-85e1-42fd-a9b3-493fe2877079)
 
 
+### Latest News
+
+The same thing goes for the Latest News page, except for 2 additional features.
+- The news publish time updates as the minutes pass
+- Every minute there is a new fetch to see if there are any news added compared to the latest fetch. If so, they get added on top.
 
 
+![LatestNews](https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/062a876a-dafe-4a8c-8b0e-8276838e56e3)
 
+
+#### News Getting Added from the minute fetch
+
+![NewsAdded](https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/c461b7e6-d1d9-40e8-af4f-8fe15d827ed6)

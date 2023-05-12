@@ -1,4 +1,4 @@
-# ![test]()HackerNews Fetcher
+# <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/144fd575-36b1-45cd-bc7c-b22a502cf43c" width="25">  HackerNews Fetcher
 
 ![HTML](https://img.shields.io/badge/HTML-orange?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -40,8 +40,8 @@ The same thing goes for the Latest News page, except for 2 additional features.
 ![NewsAdded](https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/c461b7e6-d1d9-40e8-af4f-8fe15d827ed6)
 
 
-### <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/e639caa0-e35e-49ea-b5ae-ca2d189c87f7" width="25"> Libraries Used
+### <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/e639caa0-e35e-49ea-b5ae-ca2d189c87f7" width="25"> Libraries
 
-Axios
-Lodash
+- Axios
+- Lodash
 

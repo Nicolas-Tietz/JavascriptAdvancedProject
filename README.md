@@ -23,8 +23,8 @@ The project has 2 pages:
 #### Best News
 
 The Best News page, shows the first 10 news with the higher score. By clicking the Load More button, 10 more news will appear. The limit is 200 news.
-<p align="center">
-    <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/a21847eb-85e1-42fd-a9b3-493fe2877079" width="60%" >  
+<p align="left">
+    <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/a21847eb-85e1-42fd-a9b3-493fe2877079" width="70%" >  
 
 </p>
 
@@ -36,17 +36,19 @@ The same thing goes for the Latest News page, except for 2 additional features.
 
 
 
-<p align="center">
-    <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/062a876a-dafe-4a8c-8b0e-8276838e56e3" width="60%" >  
+<p align="left">
+    <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/062a876a-dafe-4a8c-8b0e-8276838e56e3" width="70%" >  
 
 </p>
 
 #### News Getting Added from the minute fetch
 
-<p align="center">
-    <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/c461b7e6-d1d9-40e8-af4f-8fe15d827ed6" width="60%" >  
+<p align="left">
+    <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/c461b7e6-d1d9-40e8-af4f-8fe15d827ed6" width="70%" >  
 
 </p>
+
+
 
 ### <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/e639caa0-e35e-49ea-b5ae-ca2d189c87f7" width="25"> Libraries
 

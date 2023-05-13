@@ -5,7 +5,7 @@ import mainTitle from '../components/title/title.js';
 const latestNewsApi = process.env.LATEST_NEWS_API;
 const bestNewsApi = process.env.BEST_NEWS_API;
 const newsInfoApi = process.env.NEWS_INFO_API;
-require('dotenv').config()
+
 const _ = require("lodash");
 const axios = require('axios');
 const { doc } = require("prettier");

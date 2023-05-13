@@ -44,7 +44,7 @@ loadMoreBtn.addEventListener('click',()=>{
 //Updates the time ago of 'showed news' or 'loaded but not showed' news
 
 function updateTime(check){
-    console.log(newsHtmlElemsArray);
+    
     if (check == 'showed'){
         let timeSpan = document.querySelectorAll('.news-time');
         
@@ -59,7 +59,7 @@ function updateTime(check){
             let timeAgo = formatTimeString(newsTime);
             let timeNum = formatTimeNumber(newsTime);
             
-            console.log(span);
+            
             
             span.innerHTML ='';
             span.innerHTML = timeNum;
@@ -85,7 +85,7 @@ function updateTime(check){
             let timeAgo = formatTimeString(newsTime);
             let timeNum = formatTimeNumber(newsTime);
             
-            console.log(news); 
+           
             
             span.innerHTML ='';
             span.innerHTML = timeNum;
@@ -158,7 +158,7 @@ export async function fetchNewsIds(type){
         let response;
         newsType = type;
         if (newsType == 'latest'){
-            console.log(latestNewsApi)
+            
             response = await axios.get(latestNewsApi);
             checkArray = response.data;
 
@@ -222,9 +222,8 @@ export async function fetchTenNewsInfo(){
         try{    
             let newsLink = newsInfoApi + newsArray[newsLoaded] + '.json';
             let response = await axios.get(newsLink);
-            //creare array in cui mettere le reposnse e dopo quando si clicca il coso createnews e shownews.
+            //If news is empty
             if (response.data == null){
-                console.log('News Vuota Trovata Carico Un Altra News',response);
                 i--;
                 
                 continue;
@@ -350,7 +349,7 @@ function showNews(origin){
         }
     }
     else if (origin == 'minuteFetch'){
-        console.log('notsorted',notSortedNews);
+        
         
         for (let news of notSortedNews.reverse()){
             newsContainer.insertAdjacentElement("afterbegin",news);

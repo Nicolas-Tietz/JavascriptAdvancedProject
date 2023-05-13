@@ -2,7 +2,9 @@ import loadingNews from '../components/loadingNewsCube/loading.js';
 import loadingButton from '../components/loadingButtonCube/loading.js';
 import loadMoreButton from '../components/loadMoreButton/button.js';
 import mainTitle from '../components/title/title.js';
-
+const latestNewsApi = process.env.LATEST_NEWS_API;
+const bestNewsApi = process.env.BEST_NEWS_API;
+const newsInfoApi = process.env.NEWS_INFO_API;
 
 const _ = require("lodash");
 const axios = require('axios');
@@ -156,12 +158,12 @@ export async function fetchNewsIds(type){
         let response;
         newsType = type;
         if (newsType == 'latest'){
-            console.log('api news',process.env.LATEST_NEWS_API);
-            response = await axios.get(process.env.LATEST_NEWS_API);
+            console.log(latestNewsApi)
+            response = await axios.get(latestNewsApi);
             checkArray = response.data;
 
         }else if (newsType == 'best'){
-            response = await axios.get(process.env.BEST_NEWS_API);
+            response = await axios.get(bestNewsApi);
         }
         
         newsArray = response.data;
@@ -218,7 +220,7 @@ export async function fetchTenNewsInfo(){
     for (let i = 0; i<10; i++){
         
         try{    
-            let newsLink = process.env.NEWS_INFO_API + newsArray[newsLoaded] + '.json';
+            let newsLink = newsInfoApi + newsArray[newsLoaded] + '.json';
             let response = await axios.get(newsLink);
             //creare array in cui mettere le reposnse e dopo quando si clicca il coso createnews e shownews.
             if (response.data == null){
@@ -381,7 +383,7 @@ export async function newsCheck(){
         updateTime('showed');
         
         
-        let response = await axios.get(process.env.LATEST_NEWS_API)
+        let response = await axios.get(latestNewsApi)
         latestFetchArray = response.data;
         
         for (let news of latestFetchArray){
@@ -413,7 +415,7 @@ export async function newsCheck(){
 //Fetches the news info and pushes it into an array
 
 async function fetchNewsInfo(news){
-    let newsLink = process.env.NEWS_INFO_API + news + '.json';
+    let newsLink = newsInfoApi + news + '.json';
     let response = await axios.get(newsLink);
     
     

@@ -158,6 +158,7 @@ export async function fetchNewsIds(type){
         let response;
         newsType = type;
         if (newsType == 'latest'){
+            console.log('api news',latestNewsApi);
             response = await axios.get(latestNewsApi);
             checkArray = response.data;
 

@@ -1,15 +1,15 @@
 
 
 .spinner {
-    top:49%;
-    left: 49%;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%, -50%);
-    position:fixed;
+    
+    
+    
+    
     width: 56px;
     height: 56px;
     animation: spinner-y0fdc1 2s infinite ease;
     transform-style: preserve-3d;
+    
    }
    
    .spinner > div {
@@ -61,3 +61,11 @@
      transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
     }
    }
+
+
+.spinner-parent{
+    position:fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

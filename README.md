@@ -37,15 +37,15 @@ The same thing goes for the <b>Latest News</b> page, except for 2 additional fea
 
 ### How It Works | Latest & Best News
 
-- On page load, the best/latest news IDs are fetched from the API
-- For each one of the first 10 news, there is another API call to get their infos
-- With the fetched infos the news elements are created and once 10 news are ready, they will appear.
-- The fetch of the next 10 news starts immediately after, so that on button click they just get added and there is no waiting for the fetch.
+1. On page load, the best/latest news IDs are fetched from the API
+2. For each one of the first 10 news, there is another API call to get their infos
+3. With the fetched infos the news elements are created and once 10 news are ready, they will appear.
+4. The fetch of the next 10 news starts immediately after, so that on button click they just get added and there is no waiting for the fetch.
 
  #### Latest News Only
  
- - Every minute there is another fetch of the news ids. After being compared with the latest fetch, if there are new IDs, the news will get fetched and added on top of the page.
- - The publish time gets updated as minutes passes
+ 5. Every minute there is another fetch of the news ids. After being compared with the latest fetch, if there are new IDs, the news will get fetched and added on top of the page.
+ 6. The publish time gets updated as minutes passes
 
 
 ### Screenshots 
@@ -60,7 +60,7 @@ The same thing goes for the <b>Latest News</b> page, except for 2 additional fea
 </p>
 
 
-### Contact
+## <img src="https://github.com/Nicolas-Tietz/JavascriptAdvancedProject/assets/120263952/1a97ff89-6048-4f5c-85ac-df77f18c8578" width='25px'> Contact
 
 From <a href="https://nicolas-tietz.github.io/contact-me/">Portfolio Website</a>
 
@@ -70,6 +70,6 @@ or Email : nicolastietz48@gmail.com
 
 
 
-### License
+## License
 
 Distributed under the MIT License.

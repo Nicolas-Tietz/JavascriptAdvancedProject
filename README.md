@@ -60,4 +60,16 @@ The same thing goes for the <b>Latest News</b> page, except for 2 additional fea
 </p>
 
 
+### Contact
 
+From <a href="https://nicolas-tietz.github.io/contact-me/">Portfolio Website</a>
+
+or Email : nicolastietz48@gmail.com
+
+
+
+
+
+### License
+
+Distributed under the MIT License.
